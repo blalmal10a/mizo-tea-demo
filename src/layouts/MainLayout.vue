@@ -13,7 +13,7 @@
         <q-toolbar-title>
           Firebase Authentication
         </q-toolbar-title>
-        <q-space></q-space>
+
         <q-btn
           flat
           dense

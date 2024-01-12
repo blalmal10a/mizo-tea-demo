@@ -10,6 +10,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
+
 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
 // FirebaseUI config.

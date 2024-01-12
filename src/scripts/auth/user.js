@@ -7,6 +7,7 @@ const user = reactive({
   logout,
   ui: null,
 });
+
 async function check_auth(router) {
   try {
     firebase.auth().onAuthStateChanged((usr) => {
@@ -15,7 +16,8 @@ async function check_auth(router) {
         localStorage.setItem("user", usr);
         user.data = usr;
         home.getLocation();
-        console.log(usr);
+        home.getList(usr);
+        home.innerLoading = false;
       } else {
         router.push({
           name: "login",
