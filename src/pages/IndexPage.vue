@@ -168,10 +168,18 @@
             </q-tr>
             <q-tr>
               <q-td colspan="100%">
+                <!-- :href="`https://maps.google.com?${item.latitude},${item.longitude}&t=&z=20`" -->
+                <a
+                  :href="`https://www.google.com/maps/@${item.latitude},${item.longitude},20z?entry=ttu`"
+                  target="_blank"
+                >
+                  <div style="pointer-events: none;">
+                    <iframe
+                      :src="`https://maps.google.com/maps?q=${item.latitude},${item.longitude}&t=&z=15&ie=UTF8&iwloc=&output=embed`"
+                    ></iframe>
+                  </div>
+                </a>
 
-                <iframe
-                  :src="`https://maps.google.com/maps?q=${item.latitude},${item.longitude}&t=&z=15&ie=UTF8&iwloc=&output=embed`"
-                ></iframe>
                 <!-- <iframe
                   :src="`https://maps.google.com/maps?q=${item.latitude},${item.longitude}&zoom=18
   &maptype=satellite`"
