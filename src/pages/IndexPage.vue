@@ -2,18 +2,18 @@
   <q-page
     padding
     class=""
-    style="display: flex; flex-direction: column;"
+    style="display: flex; flex-direction: column"
     :style-fn="(offset) => {
       return {
         height: `calc(100vh - ${offset}px)`,
-        overflow: 'hidden'
-      }
+        overflow: 'hidden',
+      };
     }
       "
   >
     <q-inner-loading
       :showing="home.innerLoading"
-      style="height: 70%; z-index: 3;"
+      style="height: 70%; z-index: 3"
     >
       <q-spinner-gears
         size="min(50vw, 50vh)"
@@ -23,7 +23,7 @@
 
     <q-form
       class="col-auto q-pb-md"
-      style="border-bottom: 1px solid black;"
+      style="border-bottom: 1px solid black"
       @submit="home.onSubmit($route, $router)"
     >
       <div
@@ -51,6 +51,8 @@
             dense
             outlined
             v-model="home.form.phone"
+            mask="##########"
+            placeholder="10 digit mobile number"
             label="Phone"
           ></q-input>
         </div>
@@ -66,7 +68,9 @@
           <q-input
             dense
             outlined
+            required
             v-model="home.form.sold_count"
+            @focus="$event.target.select()"
             label="Hralh zat (pack)"
           ></q-input>
         </div>
@@ -74,7 +78,9 @@
           <q-input
             dense
             outlined
+            required
             v-model="home.form.sold_amount"
+            @focus="$event.target.select()"
             label="Hralhna man (₹)"
           ></q-input>
         </div>
@@ -93,23 +99,26 @@
     <div
       class="col"
       :class="{
-        'row': home.show_form
+        row: home.show_form,
       }"
-      style="overflow: auto; position: relative;"
+      style="overflow: auto; position: relative"
     >
       <div
         class="full-width row justify-between"
-        style="z-index: 2; position: sticky; top:0;
-         right:0;
-          background-color: white; border-bottom: 1px solid black;
-          height: 50px;"
+        style="
+          z-index: 2;
+          position: sticky;
+          top: 0;
+          right: 0;
+          background-color: white;
+          border-bottom: 1px solid black;
+          height: 50px;
+        "
       >
         <div
           class="col row items-center"
-          style="font-size: 20px;"
-        >
-          Entries
-        </div>
+          style="font-size: 20px"
+        >Entries</div>
         <div class="col-auto">
           <q-btn
             v-if="home.sold_list?.length"
@@ -133,14 +142,18 @@
             <q-tr>
               <q-td auto-width>Dawr Hming</q-td>
               <q-td auto-width>:</q-td>
-              <q-td>
+              <q-td style="
+                  width: 40vw;
+                ">
                 {{ item.dawr_hming }}
               </q-td>
             </q-tr>
             <q-tr>
               <q-td auto-width>Dawr Neitu</q-td>
               <q-td auto-width>:</q-td>
-              <q-td>
+              <q-td style="
+                  width: 40vw;
+                ">
                 {{ item.neitu_hming }}
               </q-td>
             </q-tr>
@@ -148,76 +161,79 @@
             <q-tr>
               <q-td auto-width>Contact</q-td>
               <q-td auto-width>:</q-td>
-              <q-td>
+              <q-td style="
+                  width: 40vw;
+                ">
                 {{ item.phone }}
               </q-td>
             </q-tr>
             <q-tr>
               <q-td auto-width>Address</q-td>
               <q-td auto-width>:</q-td>
-              <q-td>
-                {{ item.address }}
+              <q-td style="
+
+                ">
+                <div
+                  style="width: 40vw; word-wrap: break-word; text-overflow: ellipsis; overflow:hidden; overflow-wrap: break-word;"
+                >
+                  {{ item.address }}
+                </div>
+
               </q-td>
             </q-tr>
             <q-tr>
               <q-td auto-width>Man/Zat</q-td>
               <q-td auto-width>:</q-td>
-              <q-td>
-                ₹{{ item.sold_amount }}/{{ item.sold_count }}
+              <q-td style="
+
+                ">
+                <div
+                  style="width: 40vw; word-wrap: break-word; text-overflow: ellipsis; overflow:hidden; overflow-wrap: break-word;"
+                >
+                  ₹{{ item.sold_amount }}/{{ item.sold_count }}
+                </div>
               </q-td>
             </q-tr>
             <q-tr>
               <q-td colspan="100%">
-                <!-- :href="`https://maps.google.com?${item.latitude},${item.longitude}&t=&z=20`" -->
                 <a
+                  style="text-decoration: none"
                   :href="`https://www.google.com/maps/@${item.latitude},${item.longitude},20z?entry=ttu`"
                   target="_blank"
                 >
-                  <div style="pointer-events: none;">
+                  <div style="pointer-events: none">
                     <iframe
                       :src="`https://maps.google.com/maps?q=${item.latitude},${item.longitude}&t=&z=15&ie=UTF8&iwloc=&output=embed`"
                     ></iframe>
                   </div>
                 </a>
-
-                <!-- <iframe
-                  :src="`https://maps.google.com/maps?q=${item.latitude},${item.longitude}&zoom=18
-  &maptype=satellite`"
-                ></iframe> -->
-
               </q-td>
             </q-tr>
           </q-markup-table>
         </template>
-
       </div>
 
       <!-- <pre>
   {{ home.sold_list }}
 </pre> -->
     </div>
-
   </q-page>
 </template>
 
 <script setup>
-import { user } from 'src/scripts/auth/user';
-import { home } from 'src/scripts/home/script';
-import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { user } from "src/scripts/auth/user";
+import { home } from "src/scripts/home/script";
+import { onMounted } from "vue";
+import { useRouter } from "vue-router";
 
-const router = useRouter()
+const router = useRouter();
 
 onMounted(async () => {
   try {
-    home.innerLoading = true
-    user.check_auth(router)
+    home.innerLoading = true;
+    user.check_auth(router);
   } catch (error) {
     console.error(error.message);
   }
 });
-
-function getMapUri(item) {
-  return `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3652.17777915955!2d${item.longitude}!3d${item.latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x374debb85cfb099f%3A0xb99311021f7c7c83!2s${encodeURIComponent(item.dawr_hming ?? item.neitu_hming)}!5e0!3m2!1sen!2sin!4v1705085320355!5m2!1sen!2sin`
-}
 </script>

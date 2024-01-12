@@ -11,6 +11,8 @@ const home = reactive({
     address: "",
     latitude: "",
     longitude: "",
+    sold_count: 0,
+    sold_amount: 0,
     created_at: null,
   },
   innerLoading: false,
@@ -25,6 +27,7 @@ async function getList() {
   try {
     db.collection(user.data.phone ?? user.data.email ?? user.data.id)
       .orderBy("created_at", "desc")
+      .limit(20)
       .get()
       .then((colleciton) => {
         colleciton.forEach((doc) => home.sold_list.push(doc.data()));
