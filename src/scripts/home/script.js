@@ -49,7 +49,7 @@ async function storeDataToFirestore() {
     db.collection(user.data.phone ?? user.data.email ?? user.data.id)
       .add(home.form)
       .then((docRef) => {
-        home.sold_list.upsert(home.form);
+        home.sold_list.unshift(home.form);
         resetForm();
         Notify.create("Data added");
       })
