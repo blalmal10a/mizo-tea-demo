@@ -10,28 +10,25 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
-console.log("app is: ", app);
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
 // FirebaseUI config.
 var uiConfig = {
   signInSuccessUrl: "/",
   signInOptions: [
-    // Leave the lines as is for the providers you want to offer your users.
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    // firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-    // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-    // firebase.auth.GithubAuthProvider.PROVIDER_ID,
     firebase.auth.EmailAuthProvider.PROVIDER_ID,
     {
       provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
       defaultCountry: "IN",
+      recaptchaParameters: {
+        type: "image", // 'audio'
+        size: "invisible", //'normal', 'invisible' or 'compact'
+        badge: "bottomleft", //' bottomright' or 'inline' applies to invisible.
+      },
     },
-    // firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
   ],
-  // tosUrl and privacyPolicyUrl accept either url string or a callback
-  // function.
-  // Terms of service url/callback.
-  // tosUrl: null,
-  // Privacy policy url/callback.
+
   privacyPolicyUrl: function () {
     window.location.assign("#privacy");
   },

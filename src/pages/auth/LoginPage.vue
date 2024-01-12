@@ -19,11 +19,16 @@
 import { user } from 'src/scripts/auth/user';
 import { onMounted, ref } from 'vue';
 var ui
+let phoneField = null;
 onMounted(() => {
   if (!ui)
     ui = new firebaseui.auth.AuthUI(firebase.auth())
   ui.start("#firebaseui-auth-container", uiConfig)
 });
+
+function listenPhoneField() {
+  //
+}
 </script>
 <style>
 .firebaseui-id-page-callback {

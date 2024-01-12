@@ -9,12 +9,13 @@ const user = reactive({
 });
 async function check_auth(router) {
   try {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        var uid = user.uid;
-        console.log(user);
+    firebase.auth().onAuthStateChanged((usr) => {
+      if (usr) {
+        var uid = usr.uid;
+        localStorage.setItem("user", usr);
+        user.data = usr;
         home.getLocation();
-        // ...
+        console.log(usr);
       } else {
         router.push({
           name: "login",
