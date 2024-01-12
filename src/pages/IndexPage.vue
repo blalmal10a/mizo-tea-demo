@@ -166,6 +166,19 @@
                 ₹{{ item.sold_amount }}/{{ item.sold_count }}
               </q-td>
             </q-tr>
+            <q-tr>
+              <q-td colspan="100%">
+
+                <iframe
+                  :src="`https://maps.google.com/maps?q=${item.latitude},${item.longitude}&t=&z=15&ie=UTF8&iwloc=&output=embed`"
+                ></iframe>
+                <!-- <iframe
+                  :src="`https://maps.google.com/maps?q=${item.latitude},${item.longitude}&zoom=18
+  &maptype=satellite`"
+                ></iframe> -->
+
+              </q-td>
+            </q-tr>
           </q-markup-table>
         </template>
 
@@ -195,4 +208,8 @@ onMounted(async () => {
     console.error(error.message);
   }
 });
+
+function getMapUri(item) {
+  return `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3652.17777915955!2d${item.longitude}!3d${item.latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x374debb85cfb099f%3A0xb99311021f7c7c83!2s${encodeURIComponent(item.dawr_hming ?? item.neitu_hming)}!5e0!3m2!1sen!2sin!4v1705085320355!5m2!1sen!2sin`
+}
 </script>
