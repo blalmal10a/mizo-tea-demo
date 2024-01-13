@@ -17,7 +17,7 @@ const home = reactive({
   },
   innerLoading: false,
   show_form: true,
-  sold_list: [],
+  sold_list: {},
   loadingSubmit: false,
   getLocation,
   onSubmit,
@@ -27,10 +27,12 @@ async function getList() {
   try {
     db.collection(user.data.phone ?? user.data.email ?? user.data.id)
       .orderBy("created_at", "desc")
-      .limit(20)
+      .limit(1)
       .get()
       .then((colleciton) => {
-        colleciton.forEach((doc) => home.sold_list.push(doc.data()));
+        colleciton.forEach((doc) => {
+          home.sold_list[doc.id] = doc.data();
+        });
       });
   } catch (error) {
     console.error(error.message);
@@ -52,7 +54,17 @@ async function storeDataToFirestore() {
     db.collection(user.data.phone ?? user.data.email ?? user.data.id)
       .add(home.form)
       .then((docRef) => {
-        home.sold_list.unshift(home.form);
+        console.log(docRef.id);
+        const data = {};
+        data[docRef.id] = home.form;
+        home.sold_list = {
+          ...data,
+          ...home.sold_list,
+        };
+        // home.sold_list = {
+        //   `${docRef.id}`: home.form
+        // }
+        // home.sold_list.unshift(home.form);
         resetForm();
         Notify.create("Data added");
       })

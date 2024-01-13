@@ -227,7 +227,10 @@
                   :href="`https://www.google.com/maps/@${item.latitude},${item.longitude},20z?entry=ttu`"
                   target="_blank"
                 >
-                  <div style="pointer-events: none">
+                  <div
+                    style="pointer-events: none"
+                    v-if="item.latitude && item.longitude"
+                  >
                     <iframe
                       :src="`https://maps.google.com/maps?q=${item.latitude},${item.longitude}&t=&z=15&ie=UTF8&iwloc=&output=embed`"
                     ></iframe>
@@ -239,9 +242,9 @@
         </template>
       </div>
 
-      <!-- <pre>
+      <pre>
   {{ home.sold_list }}
-</pre> -->
+</pre>
     </div>
   </q-page>
 </template>
