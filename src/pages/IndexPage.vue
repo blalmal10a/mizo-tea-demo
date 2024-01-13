@@ -32,20 +32,44 @@
       >
         <div class="col-12 col-sm-6 col-md-4">
           <q-input
+            ref="dawrHming"
             dense
             outlined
+            :rules="[val => (!!val || !!home.form.neitu_hming) || 'Dawr hming emaw, neitu hming a ngai.']"
             v-model="home.form.dawr_hming"
             label="Dawr hming"
+            :lazy-rules="!home.form.dawr_hming"
+            @update:model-value="(val) => {
+              $nextTick(
+                () => {
+                  if (val)
+                    neituHming.validate(home.form.neitu_hming)
+                }
+              )
+            }"
           ></q-input>
+
         </div>
         <div class="col-12 col-sm-6 col-md-4">
           <q-input
+            ref="neituHming"
             dense
             outlined
+            :rules="[val => (!!val || !!home.form.dawr_hming) || 'Dawr hming emaw, neitu hming a ngai.']"
             v-model="home.form.neitu_hming"
             label="Dawr neitu hming"
+            :lazy-rules="!home.form.neitu_hming"
+            @update:model-value="(val) => {
+              $nextTick(
+                () => {
+                  if (val)
+                    dawrHming.validate(home.form.dawr_hming)
+                }
+              )
+            }"
           ></q-input>
         </div>
+
         <div class="col-12 col-sm-6 col-md-4">
           <q-input
             dense
@@ -69,6 +93,7 @@
             dense
             outlined
             required
+            :rules="[val => !!val || 'Required']"
             v-model="home.form.sold_count"
             @focus="$event.target.select()"
             label="Hralh zat (pack)"
@@ -115,6 +140,7 @@
           height: 50px;
         "
       >
+        <div id="map"></div>
         <div
           class="col row items-center"
           style="font-size: 20px"
@@ -221,13 +247,15 @@
 </template>
 
 <script setup>
+
 import { user } from "src/scripts/auth/user";
 import { home } from "src/scripts/home/script";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-
+const dawrHming = ref(null)
+const neituHming = ref(null)
 onMounted(async () => {
   try {
     home.innerLoading = true;
@@ -236,4 +264,6 @@ onMounted(async () => {
     console.error(error.message);
   }
 });
+
+
 </script>
